@@ -18,91 +18,380 @@ const navItems = [
   { id: "benutzer", label: "Benutzer", href: "benutzer.html", icon: "♙" },
 ];
 
+// Fictional demonstration records only; never loaded or imported in Supabase mode.
 const seedPartners = [
   {
-    id: "p-1001",
-    type: "firma",
-    name: "Bosch GmbH",
-    contactName: "Mara Schneider",
-    contactPhone: "+49 711 811-4200",
-    contactEmail: "mara.schneider@bosch.com",
-    studio: "Echterdingen",
-    closedBy: "Clubleitung Echterdingen",
-    lastContact: "2026-06-12",
-    conditions: "Firmenfitness 1 Monat 39 EUR, keine Startgebühr bei Mitarbeiterausweis.",
-    notes: "Nachweis über Bosch Mitarbeiterausweis oder digitale Beschäftigungsbestätigung erforderlich.",
-    status: "aktiv",
+    "id": "demo-firma-1",
+    "type": "firma",
+    "name": "Musterwerk Technik GmbH (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Echterdingen",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "49.90"
+      },
+      {
+        "months": 12,
+        "amount": "39.90"
+      },
+      {
+        "months": 24,
+        "amount": "34.90"
+      }
+    ],
+    "hasTransponderFee": true,
+    "hasServiceFee": true,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
   },
   {
-    id: "p-1002",
-    type: "firma",
-    name: "Daimler Truck AG",
-    contactName: "Thomas Keller",
-    contactPhone: "+49 711 8485-233",
-    contactEmail: "fitness@daimlertruck.com",
-    studio: "Leinfelden",
-    closedBy: "Regionalleitung",
-    lastContact: "2026-05-28",
-    conditions: "Firmenfitness Premium 12 Monate, 15 % Rabatt, Startpaket inklusive.",
-    notes: "Quartalsweise Auswertung der aktiven Mitgliedschaften an HR senden.",
-    status: "aktiv",
+    "id": "demo-firma-2",
+    "type": "firma",
+    "name": "Beispielblick Medien GmbH (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Reutlingen",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "49.90"
+      },
+      {
+        "months": 12,
+        "amount": "39.90"
+      },
+      {
+        "months": 24,
+        "amount": "34.90"
+      }
+    ],
+    "hasTransponderFee": false,
+    "hasServiceFee": false,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
   },
   {
-    id: "p-1003",
-    type: "firma",
-    name: "Festo SE & Co. KG",
-    contactName: "Julia Berger",
-    contactPhone: "+49 711 347-0",
-    contactEmail: "j.berger@festo.com",
-    studio: "Nürtingen",
-    closedBy: "Studioleitung Nürtingen",
-    lastContact: "2026-04-18",
-    conditions: "Firmenfitness Classic, 8 % Rabatt, Probemonat nach HR-Freigabe.",
-    notes: "Kooperation soll im Juli 2026 neu bewertet werden.",
-    status: "offen",
+    "id": "demo-firma-3",
+    "type": "firma",
+    "name": "Demopuls Software GmbH (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Leinfelden",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "49.90"
+      },
+      {
+        "months": 12,
+        "amount": "39.90"
+      },
+      {
+        "months": 24,
+        "amount": "34.90"
+      }
+    ],
+    "hasTransponderFee": true,
+    "hasServiceFee": false,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
   },
   {
-    id: "p-1004",
-    type: "verein",
-    name: "VfL Pfullingen",
-    contactName: "Sven Maier",
-    contactPhone: "+49 7121 78033",
-    contactEmail: "geschaeftsstelle@vfl-pfullingen.de",
-    studio: "Reutlingen",
-    closedBy: "Clubleitung Reutlingen",
-    lastContact: "2026-06-03",
-    conditions: "Vereinsfitness 12 % Rabatt, Team-Screening nach Terminvereinbarung.",
-    notes: "Gilt für Mitglieder mit aktueller Vereinsbestätigung. Mannschaftsaktionen separat abstimmen.",
-    status: "aktiv",
+    "id": "demo-firma-4",
+    "type": "firma",
+    "name": "Musterpfad Logistik GmbH (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Kornwestheim",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "49.90"
+      },
+      {
+        "months": 12,
+        "amount": "39.90"
+      },
+      {
+        "months": 24,
+        "amount": "34.90"
+      }
+    ],
+    "hasTransponderFee": false,
+    "hasServiceFee": true,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
   },
   {
-    id: "p-1005",
-    type: "verein",
-    name: "TSV Leinfelden",
-    contactName: "Nadine Roth",
-    contactPhone: "+49 711 754240",
-    contactEmail: "info@tsv-leinfelden.de",
-    studio: "Leinfelden",
-    closedBy: "Studioleitung Leinfelden",
-    lastContact: "2026-03-21",
-    conditions: "Vereinsfitness 10 % auf Laufzeitverträge, keine Aufnahmegebühr bei Vereinsnachweis.",
-    notes: "Jugendliche nur mit regulärer Einverständniserklärung und Beratungstermin.",
-    status: "aktiv",
+    "id": "demo-firma-5",
+    "type": "firma",
+    "name": "Beispielraum Design GmbH (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Nürtingen",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "49.90"
+      },
+      {
+        "months": 12,
+        "amount": "39.90"
+      },
+      {
+        "months": 24,
+        "amount": "34.90"
+      }
+    ],
+    "hasTransponderFee": true,
+    "hasServiceFee": false,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
   },
   {
-    id: "p-1006",
-    type: "verein",
-    name: "SV Salamander Kornwestheim",
-    contactName: "Patrick Braun",
-    contactPhone: "+49 7154 20245",
-    contactEmail: "partner@svkornwestheim.de",
-    studio: "Kornwestheim",
-    closedBy: "Clubleitung Kornwestheim",
-    lastContact: "2026-02-15",
-    conditions: "Vereinskondition offen, Bestandstarif bis Neuverhandlung gültig.",
-    notes: "Ansprechpartner wechselt im Sommer. Vertrag vor Verlängerung prüfen.",
-    status: "kritisch",
+    "id": "demo-firma-6",
+    "type": "firma",
+    "name": "Demowert Beratung GmbH (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Degerloch",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "49.90"
+      },
+      {
+        "months": 12,
+        "amount": "39.90"
+      },
+      {
+        "months": 24,
+        "amount": "34.90"
+      }
+    ],
+    "hasTransponderFee": false,
+    "hasServiceFee": false,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
   },
+  {
+    "id": "demo-verein-1",
+    "type": "verein",
+    "name": "Mustersport Team e. V. (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Echterdingen",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "44.90"
+      },
+      {
+        "months": 12,
+        "amount": "34.90"
+      },
+      {
+        "months": 24,
+        "amount": "29.90"
+      }
+    ],
+    "hasTransponderFee": true,
+    "hasServiceFee": true,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
+  },
+  {
+    "id": "demo-verein-2",
+    "type": "verein",
+    "name": "Beispielball Verein e. V. (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Reutlingen",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "44.90"
+      },
+      {
+        "months": 12,
+        "amount": "34.90"
+      },
+      {
+        "months": 24,
+        "amount": "29.90"
+      }
+    ],
+    "hasTransponderFee": false,
+    "hasServiceFee": false,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
+  },
+  {
+    "id": "demo-verein-3",
+    "type": "verein",
+    "name": "Demolauf Gemeinschaft e. V. (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Leinfelden",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "44.90"
+      },
+      {
+        "months": 12,
+        "amount": "34.90"
+      },
+      {
+        "months": 24,
+        "amount": "29.90"
+      }
+    ],
+    "hasTransponderFee": true,
+    "hasServiceFee": false,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
+  },
+  {
+    "id": "demo-verein-4",
+    "type": "verein",
+    "name": "Musterkraft Sportverein e. V. (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Kornwestheim",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "44.90"
+      },
+      {
+        "months": 12,
+        "amount": "34.90"
+      },
+      {
+        "months": 24,
+        "amount": "29.90"
+      }
+    ],
+    "hasTransponderFee": false,
+    "hasServiceFee": true,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
+  },
+  {
+    "id": "demo-verein-5",
+    "type": "verein",
+    "name": "Beispielrad Club e. V. (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Nürtingen",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "44.90"
+      },
+      {
+        "months": 12,
+        "amount": "34.90"
+      },
+      {
+        "months": 24,
+        "amount": "29.90"
+      }
+    ],
+    "hasTransponderFee": true,
+    "hasServiceFee": false,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
+  },
+  {
+    "id": "demo-verein-6",
+    "type": "verein",
+    "name": "Demofit Freizeitverein e. V. (Beispiel)",
+    "contactName": "",
+    "contactPhone": "",
+    "contactEmail": "",
+    "studio": "Degerloch",
+    "closedBy": "",
+    "lastContact": "2026-09-01",
+    "contractUrl": "",
+    "terms": [
+      {
+        "months": 1,
+        "amount": "44.90"
+      },
+      {
+        "months": 12,
+        "amount": "34.90"
+      },
+      {
+        "months": 24,
+        "amount": "29.90"
+      }
+    ],
+    "hasTransponderFee": false,
+    "hasServiceFee": false,
+    "conditions": "Fiktives Tarifbeispiel. Kein gültiges Angebot.",
+    "notes": "Frei erfundener Partner für die Demonstration.",
+    "status": "aktiv"
+  }
 ];
 
 const currentFile = window.location.pathname.split("/").pop();
@@ -166,13 +455,7 @@ function visibleNavItems() {
 }
 
 function loadPartners() {
-  if (partnerPreview) return [];
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : seedPartners;
-  } catch {
-    return seedPartners;
-  }
+  return partnerPreview ? structuredClone(seedPartners) : [];
 }
 
 function savePartners() {
@@ -1010,14 +1293,14 @@ function initialize() {
     const notice = document.createElement("section");
     notice.className = "partner-connection-notice";
     notice.setAttribute("role", "status");
-    notice.innerHTML = '<strong>Vorübergehend ohne Anmeldung</strong><p>Die Partnerdatenbank ist noch nicht verbunden. Firmen, Vereine und Konditionen sind wieder verfügbar, sobald die neue Datenverbindung eingerichtet ist.</p>';
+    notice.innerHTML = '<strong>Beispieldaten · keine echten Kooperationen</strong><p>Alle Firmen, Vereine und Tarife sind frei erfunden. Die Beträge sind monatliche Beispielbeiträge und keine gültigen Angebote. Die Beispiele werden nicht in die spätere Partnerdatenbank übernommen.</p>';
     document.querySelector("main").prepend(notice);
     const empty = document.querySelector("#emptyState");
     if (empty) {
       const heading = empty.querySelector("h3,h2,strong");
-      if (heading) heading.textContent = "Noch keine Partnerdaten verfügbar";
+      if (heading) heading.textContent = "Keine passenden Beispiele gefunden";
       const description = empty.querySelector("p");
-      if (description) description.textContent = "Die neue Partnerdatenbank wird später angebunden.";
+      if (description) description.textContent = "Ändere den Suchbegriff oder wähle einen anderen Standort.";
     }
   }
   bindEvents();
