@@ -13,7 +13,7 @@ export const configSchema=z.object({
  clubs:z.array(z.object({id:z.string().min(1).max(50),name:z.string().min(1).max(50),contracts:z.number().int().min(0).max(999999),target:z.number().int().min(0).max(999999),departures:z.number().int().min(0).max(999999)})).min(1).max(30).refine(t=>new Set(t.map(x=>x.id)).size===t.length,'Doppelte Standort-ID'),
 });
 export type Tool=z.infer<typeof toolSchema>;export type Config=z.infer<typeof configSchema>;
-export type Snapshot={config:Config,revision:number,updatedAt:string,canEdit:boolean,entryCounts?:Record<string,number>};
+export type Snapshot={config:Config,revision:number,updatedAt:string,canEdit:boolean,signedIn?:boolean,entryCounts?:Record<string,number>};
 export const partnersTool:Tool={id:'partners',name:'Firmen- & Vereinsfitness',description:'Kooperationen suchen, Konditionen prüfen und Partner verwalten',url:'',icon:'members',color:'blue',kind:'partners'};
 export const designStudioTool:Tool={id:'design-studio',name:'TOP SPORTS Editor',description:'Aushänge, Events und Gutscheine gestalten',url:'',icon:'ideas',color:'orange',kind:'design-studio'};
 export const membershipTool:Tool={id:'club-overview',name:'CÜ (Clubübersicht)',description:'Mitgliedschaften erfassen und Club-Ziele verfolgen',url:'',icon:'contracts',color:'orange',kind:'memberships'};

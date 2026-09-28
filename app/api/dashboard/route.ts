@@ -1,3 +1,4 @@
+import {env} from 'cloudflare:workers';
 import {dashboardSnapshot} from '@/db/memberships-store';
 import { dashboardDb } from '@/db/dashboard-store';
 import { configSchema, launchConfig } from '@/lib/dashboard';
@@ -8,12 +9,15 @@ function reply(data:unknown,status=200){return Response.json(data,{status,header
 const user=(r:Request)=>r.headers.get('oai-authenticated-user-id');
 async function row(){return dashboardDb().prepare('SELECT config, owner, revision, updated_at FROM dashboard WHERE id = ?').bind(1).first<Row>()}
 export async function GET(request:Request){
- const id=user(request);if(!id)return reply({error:'Bitte mit dem freigegebenen Konto anmelden.'},401);
+ const id=user(request)||'';
  try{
   let current=await row();
-  // Owner-private deployment: first authenticated visitor is the permanent administrator.
-  // Initialize as owner before extending the Site audience. INSERT OR IGNORE prevents initialization races.
-  if(!current){await dashboardDb().prepare('INSERT OR IGNORE INTO dashboard (id,config,owner,revision,updated_at) VALUES (?,?,?,?,?)').bind(1,JSON.stringify(launchConfig),id,1,new Date().toISOString()).run();current=await row();}
+  // Public visitors can never claim administration by being first.
+  const ownerEmail=env.DASHBOARD_OWNER_EMAIL?.trim().toLowerCase();
+  const verifiedEmail=request.headers.get('oai-authenticated-user-email')?.trim().toLowerCase();
+  const pendingOwner='__unclaimed_owner__';
+  if(!current){await dashboardDb().prepare('INSERT OR IGNORE INTO dashboard (id,config,owner,revision,updated_at) VALUES (?,?,?,?,?)').bind(1,JSON.stringify(launchConfig),pendingOwner,1,new Date().toISOString()).run();current=await row();}
+  if(current?.owner===pendingOwner&&id&&ownerEmail&&verifiedEmail===ownerEmail){await dashboardDb().prepare('UPDATE dashboard SET owner=? WHERE id=1 AND owner=?').bind(id,pendingOwner).run();current=await row();}
   if(!current)throw new Error('Initialization failed');
   return reply(await dashboardSnapshot(current,id));
  }catch(e){console.error('Dashboard read failed',e);return reply({error:'Die Club-Daten sind gerade nicht erreichbar. Bitte erneut versuchen.'},503)}

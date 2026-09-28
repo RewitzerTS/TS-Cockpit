@@ -4,8 +4,7 @@ import {configSchema} from '@/lib/dashboard';
 export const dynamic='force-dynamic';
 const reply=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 export async function GET(request:Request){
- const user=request.headers.get('oai-authenticated-user-id');
- if(!user)return reply({error:'Anmeldung erforderlich.'},401);
+ const user=request.headers.get('oai-authenticated-user-id')||'';
  const period=new URL(request.url).searchParams.get('period')||'';
  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(period))return reply({error:'Bitte einen gültigen Monat auswählen.'},400);
  try{

@@ -10,7 +10,7 @@ const db={async batch(statements){sqlite.exec('BEGIN');try{const results=[];for(
 const store={'@/db/dashboard-store':{dashboardDb:()=>db}};
 const helpers=load('db/memberships-store.ts',{'./dashboard-store':{dashboardDb:()=>db},'@/lib/dashboard':lib});
 const route=load('app/api/memberships/route.ts',{...store,'@/db/memberships-store':helpers,'@/lib/memberships':membership});
-const dashboard=load('app/api/dashboard/route.ts',{...store,'@/db/memberships-store':helpers,'@/lib/dashboard':lib});
+const dashboard=load('app/api/dashboard/route.ts',{...store,'@/db/memberships-store':helpers,'@/lib/dashboard':lib,'cloudflare:workers':{env:{DASHBOARD_OWNER_EMAIL:'owner@example.test'}}});
 const id1=crypto.randomUUID(),id2=crypto.randomUUID();
 const base={id:id1,clubId:'echterdingen',employee:'Test Person',reference:'TEST-001',signedOn:today};
 function req(user,method='GET',body,query=''){return new Request('http://localhost/api/memberships'+query,{method,headers:{...(user?{'oai-authenticated-user-id':user}:{}),origin:'http://localhost'},...(body?{body:JSON.stringify(body)}:{})})}
@@ -69,7 +69,9 @@ async function snap(){return (await dashboard.GET(req('staff-a'))).json()}
  assert.equal((await reports.PATCH(req('admin','PATCH',{id:report.id}))).status,200);
  assert.equal((await reports.POST(req('staff-a','POST',{...report,id:crypto.randomUUID()}))).status,201);
  const statistics=load('app/api/statistics/route.ts',{...store,'@/db/memberships-store':helpers,'@/lib/dashboard':lib});
- assert.equal((await statistics.GET(req(null,'GET',null,'?period='+period))).status,401);
+ assert.equal((await statistics.GET(req(null,'GET',null,'?period='+period))).status,200);
+ const anonymous=await (await dashboard.GET(req(null))).json();assert.equal(anonymous.canEdit,false);assert.equal(anonymous.signedIn,false);
+ assert.equal((await dashboard.PUT(req(null,'PUT',{config,revision:1}))).status,401);
  assert.equal((await statistics.GET(req('staff-a','GET',null,'?period=2026-13'))).status,400);
  assert.equal((await (await statistics.GET(req('staff-a','GET',null,'?period=2020-01'))).json()).snapshot,null);
  const before=await snap();
@@ -88,6 +90,13 @@ async function snap(){return (await dashboard.GET(req('staff-a'))).json()}
  const active=await (await statistics.GET(req('staff-a','GET',null,'?period='+nextPeriod))).json();
  assert.equal(active.snapshot.config.clubs[2].contracts,0);
  assert.equal(active.snapshot.entryCounts.leinfelden,undefined);
+ sqlite.prepare('DELETE FROM dashboard').run();
+ let publicFirst=await (await dashboard.GET(req(null))).json();assert.equal(publicFirst.canEdit,false);
+ let visitorFirst=await (await dashboard.GET(req('visitor'))).json();assert.equal(visitorFirst.canEdit,false);
+ const ownerRequest=req('actual-owner');ownerRequest.headers.set('oai-authenticated-user-email','owner@example.test');
+ let ownerFirst=await (await dashboard.GET(ownerRequest)).json();assert.equal(ownerFirst.canEdit,true);
+ assert.equal((await (await dashboard.GET(req('visitor'))).json()).canEdit,false);
+ console.log('PASS: first anonymous/signed-in visitor cannot claim admin; configured owner alone claims administration.');
  console.log('PASS: monthly archive preserves baseline and club-specific CÜ totals; current month separated; empty months; validation; authentication; stale updates leave archive unchanged.');
  console.log('PASS: daily tariff total excludes online subset; validation; idempotency; one active report per club/day; legacy overlap prevention; zero day; admin cancellation and re-entry.');
  console.log('PASS: actual SQLite queries; staff entry permission; isolated clubs; reference duplicates; retry idempotency; date checks; own history; admin-only config and cancellation; baseline aggregation without double count.');
