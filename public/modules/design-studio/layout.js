@@ -4,6 +4,7 @@ function frameOf(o){const frame=Object.fromEntries(frameKeys.map(k=>[k,o[k]]));i
 function contentFrame(base,x,y,k){return {...base,left:x,top:y,scaleX:base.scaleX*k,scaleY:base.scaleY*k}}
 function targetFrame(role,base,target){
  const d=formats[target],W=d.w,H=d.h;
+ if(templateKind==='courseplan'){const source=formats.a5landscape,k=Math.min(W/source.w,H/source.h);return contentFrame(base,base.left*k+(W-source.w*k)/2,base.top*k+(H-source.h*k)/2,k)}
  if(templateKind==='voucher'){const k=Math.min(W/formats.a4.w,H/formats.a4.h);return contentFrame(base,base.left*k+(W-formats.a4.w*k)/2,base.top*k+(H-formats.a4.h*k)/2,k)}
  if(target==='a4')return base;
  if(role?.startsWith('n:')){
@@ -49,6 +50,7 @@ function furniture(role,W,H){
 }
 async function changeFormat(target,{fresh=false,silent=false}={}){
  if(busy||!formats[target])return;
+ if(templateKind==='courseplan'&&!['a5landscape','a4landscape'].includes(target))return;
  const previous=format,old=formats[previous],next=formats[target];
  busy=true;$('format').disabled=true;canvas.discardActiveObject();
  try{
@@ -57,7 +59,7 @@ async function changeFormat(target,{fresh=false,silent=false}={}){
    o.layoutFrames=o.layoutFrames||{};
    if(!fresh)o.layoutFrames[previous]=frameOf(o);
    // Keep each format's manual placement. Content and style edits remain shared.
-   const base=o.layoutFrames.a4||o.layoutBase||frameOf(o);
+   const base=o.layoutFrames[templateKind==='courseplan'?'a5landscape':'a4']||o.layoutBase||frameOf(o);
    if(!o.layoutBase)o.layoutBase={...base};
    const shape=o.layoutFurniture?furniture(o.layoutRole,next.w,next.h):null;
    if(o.layoutFurniture){

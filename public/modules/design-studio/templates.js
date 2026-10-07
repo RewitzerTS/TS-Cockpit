@@ -1,12 +1,14 @@
 const templateDrafts={};
 function syncTemplateUI(){
  $('templateChoice').value=templateKind;
- const voucher=templateKind==='voucher';
- $('club').closest('label').hidden=voucher;
- $('photoUnderHeader').closest('label').hidden=voucher;
+ const voucher=templateKind==='voucher',courseplan=templateKind==='courseplan';
+ for(const option of $('format').options){const available=courseplan?['a5landscape','a4landscape'].includes(option.value):!['a5landscape','a4landscape'].includes(option.value);option.hidden=!available;option.disabled=!available}
+ $('club').closest('label').hidden=voucher||courseplan;
+ $('photoUnderHeader').closest('label').hidden=voucher||courseplan;
  $('referenceDialog').querySelector('h2').textContent=voucher?'Original-Gutschein':'Original-Events';
  $('referenceDialog').querySelector('img').src=voucher?'assets/voucher/reference.png':'assets/reference.png';
  $('referenceDialog').querySelector('img').alt=voucher?'Originalvorlage Gutschein':'Originalvorlage Events';
+ if(courseplan){$('referenceDialog').querySelector('h2').textContent='Original-Kursplan · Reutlingen';$('referenceDialog').querySelector('img').src='assets/courseplan/reference.png';$('referenceDialog').querySelector('img').alt='Originalvorlage Kursplan im Querformat'}
 }
 async function voucherTemplate(){
  busy=true;templateKind='voucher';canvas.discardActiveObject();canvas.clear();canvas.backgroundColor='#fff';
@@ -26,12 +28,15 @@ async function voucherTemplate(){
  busy=false;fit();record();properties();$('status').textContent='Gutschein · Bereit zum Gestalten';
 }
 async function switchTemplate(kind){
- if(busy||kind===templateKind)return;
+ if(busy||kind===templateKind){$('templateChoice').value=templateKind;return}
  const previous=state();templateDrafts[templateKind]=previous;
+ $('templateChoice').disabled=true;
  try{
   if(templateDrafts[kind]){await restore(templateDrafts[kind]);record()}
   else if(kind==='voucher')await voucherTemplate();
+  else if(kind==='courseplan')await courseplanTemplate();
   else if(kind==='notices')await template({placeholders:true,kind:'notices'});
   else await template({placeholders:true});
  }catch(error){await restore(previous);notify(error.message)}
+ finally{$('templateChoice').disabled=false;syncTemplateUI()}
 }

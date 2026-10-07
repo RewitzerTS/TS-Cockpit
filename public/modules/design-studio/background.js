@@ -23,7 +23,7 @@ function updatePhotoClips(target){
  for(const o of objects)if(o?.type==='image'&&(o.photoUnderHeader||o.cornerRounding||o.headerClipApplied))clipPhoto(o);
 }
 function fixBackground(){
- if(templateKind==='voucher'){canvas.requestRenderAll();return}
+ if(['voucher','courseplan'].includes(templateKind)){canvas.requestRenderAll();return}
  const e=headerEdge();
  let rim=canvas.getObjects().find(o=>o.layoutRole==='header-rim');
  if(rim)canvas.remove(rim);
@@ -39,14 +39,14 @@ function fixBackground(){
  canvas.requestRenderAll();
 }
 function placeNewPhoto(im){
- if(templateKind==='voucher'){const k=Math.min(360/im.width,420/im.height);im.set({left:70,top:100,scaleX:k,scaleY:k,photoUnderHeader:false});return}
+ if(['voucher','courseplan'].includes(templateKind)){const k=Math.min(360/im.width,420/im.height);im.set({left:70,top:100,scaleX:k,scaleY:k,photoUnderHeader:false});return}
  const e=headerEdge(),width=Math.min(e.width-78,540),scale=width/im.width;
  im.set({left:38,top:e.top-e.drop+4,scaleX:scale,scaleY:scale,photoUnderHeader:true});clipPhoto(im);
 }
 
 // Keep the narrow white separator and its dashed line above editable content.
 function keepSeparatorVisible(){
- if(templateKind==='voucher')return;
+ if(['voucher','courseplan'].includes(templateKind))return;
  const objects=canvas.getObjects();
  const roles=['a:5','header-rim','a:4','a:7','t:2','t:3','t:4','t:5','a:9','a:10','t:6'];
  const foreground=roles.map(role=>objects.find(o=>o.layoutRole===role)).filter(Boolean);
