@@ -2,7 +2,15 @@
 
 TOP SPORTS Club-Cockpit: zentrale Browser-Startseite für die Clubs.
 
-**Online:** https://top-sports-club-cockpit.r-rewitzer.chatgpt.site
+**Eigenständiger Entwurf:** https://rewitzerts.github.io/TS-Cockpit/
+
+GitHub Pages liefert das vollständige Cockpit als statische Anwendung aus – ohne ChatGPT-Anmeldung und ohne Supabase. Editor einschließlich Kursplan im Querformat, Partner-Beispieldaten, Clubauswahl und Monatsansicht sind enthalten. Die Kennzahlen und News stammen aus dem gespeicherten Entwurfsstand. CÜ ist eine ausdrücklich gekennzeichnete Simulation ohne Speicherung. Verwaltung ist im öffentlichen Entwurf deaktiviert; es gibt keinen unsicheren Browser-Adminzugang.
+
+Jeder Push nach `main` baut und veröffentlicht den Entwurf über `.github/workflows/pages.yml`. In Settings → Pages ist **GitHub Actions** als Quelle eingestellt. Lokal: `npm run build:pages` und `npm run preview:pages`.
+
+Die bisherige servergestützte Variante bleibt im Quellcode erhalten. Die folgenden Abschnitte beschreiben diese Variante und ihre spätere Backend-Anbindung, nicht den GitHub-Pages-Entwurf.
+
+**Bisherige Sites-Instanz:** https://top-sports-club-cockpit.r-rewitzer.chatgpt.site
 
 ## Funktionen
 

@@ -1,4 +1,5 @@
 'use client';
+import {apiFetch} from '@/lib/cockpit-client';
 import {useEffect,useState,type RefObject} from 'react';
 import {ChevronLeft,ChevronRight} from 'lucide-react';
 import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogDescription} from '@/components/ui/dialog';
@@ -16,7 +17,7 @@ export default function ContractStats({snapshot,onClose,trigger}:{snapshot:Snaps
   if(live||!period)return;
   const controller=new AbortController();
   (async()=>{try{
-   const res=await fetch('/api/statistics?period='+encodeURIComponent(period),{cache:'no-store',signal:controller.signal});
+   const res=await apiFetch('/api/statistics?period='+encodeURIComponent(period),{cache:'no-store',signal:controller.signal});
    const data=await res.json() as {period:string;snapshot:Snapshot|null;error?:string};if(!res.ok)throw new Error(data.error);
    if(!controller.signal.aborted)setLoaded(data);
   }catch(e){if(!controller.signal.aborted)setError(e instanceof Error?e.message:'Die Vertragszahlen konnten nicht geladen werden.')}})();
