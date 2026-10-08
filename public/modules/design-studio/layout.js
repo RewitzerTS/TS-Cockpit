@@ -4,7 +4,7 @@ function frameOf(o){const frame=Object.fromEntries(frameKeys.map(k=>[k,o[k]]));i
 function contentFrame(base,x,y,k){return {...base,left:x,top:y,scaleX:base.scaleX*k,scaleY:base.scaleY*k}}
 function targetFrame(role,base,target){
  const d=formats[target],W=d.w,H=d.h;
- if(templateKind==='courseplan'){const source=formats.a5landscape,k=Math.min(W/source.w,H/source.h);return contentFrame(base,base.left*k+(W-source.w*k)/2,base.top*k+(H-source.h*k)/2,k)}
+ if(templateKind==='courseplan'){if(!role?.startsWith('c:'))return null;const source=formats.a5landscape,k=Math.min(W/source.w,H/source.h);return contentFrame(base,base.left*k+(W-source.w*k)/2,base.top*k+(H-source.h*k)/2,k)}
  if(templateKind==='voucher'){const k=Math.min(W/formats.a4.w,H/formats.a4.h);return contentFrame(base,base.left*k+(W-formats.a4.w*k)/2,base.top*k+(H-formats.a4.h*k)/2,k)}
  if(target==='a4')return base;
  if(role?.startsWith('n:')){

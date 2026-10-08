@@ -69,3 +69,6 @@ $('club').onchange=()=>chooseClub($('club').value);
 canvas.on('before:render',keepSeparatorVisible);
 
 $('templateChoice').onchange=()=>switchTemplate($('templateChoice').value);
+
+$('addCourseField').onclick=()=>addCourseField();
+$('addTimeField').onclick=()=>addCourseField(true);

@@ -2,6 +2,8 @@ const templateDrafts={};
 function syncTemplateUI(){
  $('templateChoice').value=templateKind;
  const voucher=templateKind==='voucher',courseplan=templateKind==='courseplan';
+ $('courseFields').hidden=!courseplan;
+ document.querySelector('.property-foot').textContent=courseplan?'Alle Elemente einzeln bearbeiten.':'Inhalte bearbeiten · Hintergrund fixiert.';
  for(const option of $('format').options){const available=courseplan?['a5landscape','a4landscape'].includes(option.value):!['a5landscape','a4landscape'].includes(option.value);option.hidden=!available;option.disabled=!available}
  $('club').closest('label').hidden=voucher||courseplan;
  $('photoUnderHeader').closest('label').hidden=voucher||courseplan;
